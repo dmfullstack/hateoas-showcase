@@ -1,0 +1,43 @@
+== Hateoas Showcase
+This is a simple CRUD application showing how https://en.wikipedia.org/wiki/HATEOAS[HATEOAS] works in a typical client/server architecture.
+
+* Spring HATEOAS Server based on https://github.com/spring-projects/spring-restdocs/tree/v1.2.0.RELEASE/samples/rest-notes-spring-hateoas[this sample]
+* Pagination
+* https://github.com/traverson/traverson[Traverson] - A Hypermedia API/HATEOAS Client for the Browser
+* JQuery Javascript/HTML5 Client
+
+
+
+== Run the application
+To run the application, execute:
+
+[subs="attributes"]
+----
+./gradlew build && java -jar build/libs/target/rest-note-service-0.0.1-SNAPSHOT.jar
+----
+
+If you are using Maven, execute:
+
+[subs="attributes"]
+----
+mvn package && java -jar target/rest-note-service-0.0.1-SNAPSHOT.jar
+----
+
+Adding notes:
+----
+add Content-Type: application/json to Headers
+post to localhost:8080/notes with {"title":123, "body": "test"}
+----
+
+Pagination
+----
+localhost:8080/notes/pages?page=0&size=5
+----
+
+Client
+----
+cd client
+npm install
+open index.html in browser
+----
+
