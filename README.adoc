@@ -11,12 +11,6 @@ This is a simple CRUD application showing how https://en.wikipedia.org/wiki/HATE
 == Run the application
 To run the application, execute:
 
-[subs="attributes"]
-----
-./gradlew build && java -jar build/libs/target/rest-note-service-0.0.1-SNAPSHOT.jar
-----
-
-If you are using Maven, execute:
 
 [subs="attributes"]
 ----
