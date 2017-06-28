@@ -118,9 +118,10 @@ $(function () {
             }),
             success: function (note, textStatus, request) {
                 alert("note added");
-               // addNoteToTable(note);
-               title.val('');
-               body.val('');
+                var linkToNewNote = request.getResponseHeader('Location');
+                console.log(linkToNewNote);
+                title.val('');
+                body.val('');
             },
             error: function (error) {
                 console.log(error)
@@ -133,19 +134,16 @@ $(function () {
     function removeNote(e) {
 
         var row = e.target.closest('tr');
-        var ratingId = $(row).data().ratingId;
+        var id = $(row).data().noteId
         //var ratingId = $(row).attr("ratingId");
 
         $.ajax({
             type: 'DELETE',
-            url: 'http://localhost:3456/courserater/rest/ratings/' + ratingId
+            url: 'http://localhost:8080/notes/' + id
         });
 
         var row = e.target.closest('tr');
         row.remove();
-        updateCount();
-        showHideTable();
-        slideAlert.removeClass('collapse');
     }
 
 });

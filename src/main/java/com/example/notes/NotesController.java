@@ -23,6 +23,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriTemplate;
@@ -30,6 +31,8 @@ import org.springframework.web.util.UriTemplate;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("/notes")
@@ -47,7 +50,7 @@ public class NotesController {
 
     @Autowired
     public NotesController(NoteRepository noteRepository, TagRepository tagRepository, NoteResourceAssembler noteResourceAssembler,
-            TagResourceAssembler tagResourceAssembler) {
+                           TagResourceAssembler tagResourceAssembler) {
         this.noteRepository = noteRepository;
         this.tagRepository = tagRepository;
         this.noteResourceAssembler = noteResourceAssembler;
@@ -70,7 +73,7 @@ public class NotesController {
     @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    Note create(@RequestBody NoteInput noteInput) {
+    HttpHeaders create(@RequestBody NoteInput noteInput) {
         Note note = new Note();
         note.setTitle(noteInput.getTitle());
         note.setBody(noteInput.getBody());
@@ -78,11 +81,20 @@ public class NotesController {
 
         this.noteRepository.save(note);
 
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setLocation(linkTo(NotesController.class).slash(note.getId()).toUri());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Access-Control-Expose-Headers","Location");
+        httpHeaders.setLocation(linkTo(NotesController.class).slash(note.getId()).toUri());
 
-        return note;
+        return httpHeaders;
     }
+
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    void deleteNote(@PathVariable("id") long id) {
+        this.noteRepository.delete(id);
+    }
+
 
     @CrossOrigin
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
