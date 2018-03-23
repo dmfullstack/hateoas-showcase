@@ -13,8 +13,12 @@
 
 package com.example.notes;
 
-import com.example.notes.NoteResourceAssembler.NoteResource;
-import com.example.notes.TagResourceAssembler.TagResource;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,14 +29,17 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriTemplate;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import com.example.notes.NoteResourceAssembler.NoteResource;
+import com.example.notes.TagResourceAssembler.TagResource;
 
 @RestController
 @RequestMapping("/notes")
@@ -92,7 +99,8 @@ public class NotesController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     void deleteNote(@PathVariable("id") long id) {
-        this.noteRepository.delete(id);
+        Note note = this.noteRepository.findById(id);
+        this.noteRepository.delete(note);
     }
 
 
