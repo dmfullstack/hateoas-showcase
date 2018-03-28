@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.example.notes.Note;
 
@@ -23,6 +24,7 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 public class NotesST {
 
     private RequestSpecification spec;
