@@ -27,11 +27,11 @@ import io.restassured.specification.RequestSpecification;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 public class NotesST {
 
-    private RequestSpecification spec;
+    private static RequestSpecification spec;
 
     @BeforeAll
-    public void setUp(RestDocumentationContextProvider restDocumentation) {
-        this.spec = new RequestSpecBuilder().addFilter(RestAssuredRestDocumentation.documentationConfiguration(restDocumentation))
+    public static void setUp(RestDocumentationContextProvider restDocumentation) {
+        spec = new RequestSpecBuilder().addFilter(RestAssuredRestDocumentation.documentationConfiguration(restDocumentation))
                 .build();
     }
 
